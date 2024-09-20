@@ -1,5 +1,5 @@
 from flask import Flask, session
-from .db_storage import db, init_db
+from .db_storage import db, migrate, init_db
 from flask_login import LoginManager
 
 
@@ -14,6 +14,7 @@ def create_app():
 
     db.init_app(app)
     init_db(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = '.web_flask.authentication.login'
 

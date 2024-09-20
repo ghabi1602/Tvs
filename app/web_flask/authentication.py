@@ -115,10 +115,10 @@ def login():
                 session['user_type'] = 'prof'
                 return redirect(url_for('routes.prof_dash'))
             else:
-                flash('Password is incorrect :(')
+                flash('Password is incorrect')
                 return redirect(url_for('routes.home'))
 
-        flash('Wrong Email :(')
+        flash('Wrong Email')
         return redirect(url_for('routes.home'))
 
     return redirect(url_for('routes.home'))

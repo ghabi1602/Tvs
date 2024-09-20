@@ -1,8 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 # initializing sqlalchemy
 
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def init_db(app):
@@ -12,7 +14,6 @@ def init_db(app):
         from .models.student_model import STUDENT
         from .models.prof_model import PROFESSOR
         from .models.course import CLASSES
-        #from .models.association import enrollment
 
         # Create all tables based on the models
         db.create_all()
