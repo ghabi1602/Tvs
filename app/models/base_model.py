@@ -7,7 +7,7 @@ class BaseModel(db.Model):
     """base model to be inherited by child models"""
     __abstract__ = True
 
-    id = db.Column(db.String(60), primary_key=True, default=lambda: str(uuid4()))
+    id = db.Column(db.String(300), primary_key=True, default=lambda: str(uuid4()))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     is_online = db.Column(db.Boolean, default=False)

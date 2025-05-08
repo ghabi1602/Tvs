@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat_style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="chat-container">
+        <input type="hidden" id="current-user-id" value="{{ current_user.id }}">
+        <!-- Professors List (Left Sidebar) -->
+        <div class="professors-list">
+            <h2>Professors</h2>
+            <ul id="professors">
+                {% for prof in profs %}
+                    <li class="user-item" data-id="{{ prof.id }}" data-type="professor">{{ prof.fullname }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Chat Box (Middle Section) -->
+        <div class="chat-box">
+            <div class="chat-header">
+                <h3 id="chat-with">Select a user to chat</h3>
+            </div>
+            <div class="chat-history" id="chat-history">
+                <!-- Messages will be dynamically loaded here -->
+            </div>
+            <div class="chat-input">
+                <textarea id="message-content" placeholder="Type your message here..."></textarea>
+                <button id="send-message-btn">Send</button>
+            </div>
+        </div>
+
+        <!-- Students List (Right Sidebar) -->
+        <div class="students-list">
+            <h2>Students</h2>
+            <ul id="students">
+                {% for std in stds %}
+                    <li class="user-item" data-id="{{ std.id }}" data-type="student">{{ std.fullname }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+<script type="text/javascript" charset="utf-8">
+    document.addEventListener('DOMContentLoaded', function() {
+    const chatHistory = document.getElementById('chat-history');
+    const chatWithHeader = document.getElementById('chat-with');
+    const messageInput = document.getElementById('message-content');
+    const sendMessageBtn = document.getElementById('send-message-btn');
+    const currentUserId = document.getElementById('current-user-id').value;
+
+    // Track the current recipient
+    let recipientId = null;
+    let recipientType = null;
+
+    // Initialize Socket.IO
+    const socket = io.connect();
+
+    // set up event delegation for users items.
+    document.getElementById('professors').addEventListener('click', handleUserClick);
+    document.getElementById('students').addEventListener('click', handleUserClick);
+
+    function handleUserClick(event) {
+        const target = event.target.closest('.user-item');
+        if (target) {
+            recipientId = target.getAttribute('data-id');
+            recipientType = target.getAttribute('data-type');
+            const recipientName = target.textContent;
+
+            updateChatHeader(recipientName);
+            loadChatHistory(recipientId);
+        }
+    }
+
+    function updateChatHeader(name) {
+        chatWithHeader.textContent = `Chatting with: ${name}`;
+    }
+
+    function loadChatHistory(userId) {
+        fetch(`/history/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                chatHistory.innerHTML = ''; // Clear existing chat history
+                data.forEach(message => {
+                    appendMessageToChatHistory(message);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching message history:', error);
+            });
+    }
+
+    function appendMessageToChatHistory(message) {
+        chatHistory.innerHTML += `
+            <div class="chat-message">
+                <strong>${message.sender_id === currentUserId ? 'You' : 'Other'}:</strong>
+                <p>${message.content}</p>
+                <span class="timestamp">${new Date(message.timestamp).toLocaleString()}</span>
+            </div>
+        `;
+    }
+
+    sendMessageBtn.addEventListener('click', function() {
+        const messageContent = messageInput.value;
+
+        if (messageContent && recipientId) {
+            socket.emit('send_message', {
+                recipient_id: recipientId,
+                content: messageContent
+            });
+
+            // Clear the input field
+            messageInput.value = '';
+        }
+    });
+
+    socket.on('message_received', function(data) {
+        if (data.recipient_id === recipientId || data.sender_id === recipientId) {
+            appendMessageToChatHistory(data);
+        }
+    });
+});
+    </script>
+</body>
+</html>

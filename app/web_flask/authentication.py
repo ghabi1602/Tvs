@@ -97,9 +97,9 @@ def login():
             if check_password_hash(std.password, password):
                 login_user(std)
                 flash('Login successful')
-                current_user.is_online = True
-                db.session.commit()
+                std.is_online = True
                 session['user_type'] = 'std'
+                db.session.commit()
                 return redirect(url_for('routes.std_dash'))
             else:
                 flash('Password incorrect..Try again')
@@ -110,9 +110,9 @@ def login():
             if check_password_hash(prof.password, password):
                 login_user(prof)
                 flash('Login successful')
-                current_user.is_online = True
-                db.session.commit()
+                prof.is_online = True
                 session['user_type'] = 'prof'
+                db.session.commit()
                 return redirect(url_for('routes.prof_dash'))
             else:
                 flash('Password is incorrect')

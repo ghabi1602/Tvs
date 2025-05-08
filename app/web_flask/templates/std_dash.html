@@ -19,7 +19,7 @@
             <ul class="dashboard">
                 <li><li><a href="{{ url_for('routes.profs') }}"><i class='bx bx-male-female'></i>  Professors</li></a></li>
                 <li><a href="formS.html"><i class='bx bx-cog' ></i>  Update</li></a>
-                <li><a href=""><i class='bx bx-chat'></i> Chat</a></li>
+                <li><a href="{{ url_for('chat.chat') }}"><i class='bx bx-chat'></i> Chat</a></li>
                 <li><a href="{{ url_for('auth.logout') }}"><i class='bx bx-log-out'></i>   Log out</a></li>
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -47,7 +47,11 @@
                     </div>
         </div>
         <div class="departement" style="background-image: url(static/imgs/education4.jpg);">
-            <img src="static/imgs/34.jpg" alt="std" class="profile-photo"> <br> <br>
+            {% if student.gender == 'female' %}
+                <img src="static/imgs/education7.webp" alt="std" class="profile-photo"> <br> <br>
+            {% else %}
+                <img src="static/imgs/education8.webp" alt="std" class="profile-photo"> <br> <br>
+            {% endif %}
             <h2>{{ student.fullname }}</h2>
             <h3>Interest:</h3>
             {% for element in interest %}

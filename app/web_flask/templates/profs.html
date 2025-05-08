@@ -35,7 +35,10 @@
                         {% else %}
                             <td><img src="/static/imgs/education9.webp" alt="logo" class="prof_logo"></td>
                         {% endif %}
-                        <td>{{ prof.fullname }}</td>
+                        <td>
+                            {{ prof.fullname }}
+                            <span class="status-dot {% if prof.is_online %} online {% else %} offline {% endif %}"></span>
+                        </td>
                         <td>{{ prof.age }}</td>
                         <td>{{ prof.email }}</td>
                         <td>{{ prof.specialization }}</td>

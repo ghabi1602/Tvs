@@ -1,9 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from flask_login import login_required, current_user
 from app.models.student_model import STUDENT
 from app.models.prof_model import PROFESSOR
 from app.models.course import CLASSES
-from app.models.association import enrollment
 
 
 # Initialize a blueprint
@@ -26,10 +25,11 @@ def about():
 @login_required
 def prof_dash():
     """route to the professor dashboard"""
-    professor = PROFESSOR.query.get_or_404(current_user.id)
+    professor = PROFESSOR.query.get(current_user.id)
+    if not professor:
+        return "data not found", 404
     all_classes = CLASSES.query.all()
     data = []
-    expertise = []
     if all_classes:
         for class_ in all_classes:
             class_data = {}
@@ -47,7 +47,7 @@ def prof_dash():
                 'max_std': max_std
             })
             data.append(class_data)
-        expertise = professor.expert_at.split()
+    expertise = professor.expert_at.split()
     return render_template('prof_dash.html', professor=professor, data=data, expertise=expertise)
 
 
@@ -55,7 +55,9 @@ def prof_dash():
 @login_required
 def std_dash():
     """route to the student dashboard"""
-    student = STUDENT.query.get_or_404(current_user.id)
+    student = STUDENT.query.get(current_user.id)
+    if not student:
+        return "<h1><center><em>data not found</em></center></h1>", 404
     all_classes = CLASSES.query.all()
     data = []
     if all_classes:
@@ -76,8 +78,8 @@ def std_dash():
                 'id': class_.id
             })
             data.append(class_data)
-        interest = student.interested_at.split()
-        classes = [cls.name for cls in student.classes]
+    interest = student.interested_at.split()
+    classes = [cls.name for cls in student.classes]
     return render_template('std_dash.html', student=student, data=data, interest=interest, classes=classes)
 
 
@@ -87,7 +89,7 @@ def profs():
     """retrieves a list of professors"""
     professors = PROFESSOR.query.all()
     if not professors:
-        return "No professors found yet", 404
+        return "<h1><center><em>No professors have been found</em></center></h1>"
     return render_template('profs.html', professors=professors)
 
 
@@ -97,7 +99,7 @@ def stds():
     """retrieves a list of students"""
     students = STUDENT.query.all()
     if not students:
-        return "No students found yet", 404
+        return "<h1><center><em>No students have been found</em></center></h1>"
     return render_template('stds.html', students=students)
 
 
@@ -141,3 +143,8 @@ def signup():
 @login_required
 def create_class():
     return render_template('addClass.html')
+
+
+@bp.errorhandler(404)
+def not_found(error):
+    return jsonify({error: "Not Found"}), 404

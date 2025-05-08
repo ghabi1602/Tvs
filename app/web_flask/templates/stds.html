@@ -35,7 +35,10 @@
                         {% else %}
                             <td><img src="/static/imgs/education7.webp" alt="logo" class="prof_logo"></td>
                         {% endif %}
-                        <td>{{ std.fullname }}</td>
+                        <td>
+                            {{ std.fullname }}
+                            <span class="status-dot {% if std.is_online %}online{% else %}offline{% endif %}"></span>
+                        </td>
                         <td>{{ std.age }}</td>
                         <td>{{ std.email }}</td>
                         <td>{{ std.highest_school_level }}</td>

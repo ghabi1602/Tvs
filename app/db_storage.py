@@ -14,6 +14,7 @@ def init_db(app):
         from .models.student_model import STUDENT
         from .models.prof_model import PROFESSOR
         from .models.course import CLASSES
+        from .models.message import MESSAGE
 
         # Create all tables based on the models
         db.create_all()

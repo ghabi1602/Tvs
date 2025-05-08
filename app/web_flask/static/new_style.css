@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     overflow-x: hidden;
+    text-decoration: none;
 }
 
 .container2 {
@@ -169,6 +170,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 10px; /* Space above the button */
+    text-decoration: none;
 }
 
 /* Hover effect */
@@ -211,30 +213,30 @@ body {
     width: 100%; /* Ensure it takes up the full width of the container */
     text-align: center; /* Center the button inside the container */
 }
-
-
+/*button new class*/
 .middle-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: transparent;
+    padding: 12px 24px; /* Slightly larger padding for a more substantial feel */
+    font-size: 18px; /* Increased font size for better readability */
+    background-color: transparent; /* Base background color */
     color: #007bff; /* Button text color */
     border: 2px solid #007bff; /* Outline color */
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 10px; /* More rounded corners */
     cursor: pointer;
-    margin-top: 400px; /* Adjust top margin */
-    background-color 0.3s, color 0.3s; /* Smooth transitions */
+    margin-top: 370px; /* Adjusted margin for better spacing */
+    transition: background-color 0.3s, color 0.3s, transform 0.2s; /* Added transform transition for hover */
     display: block; /* Ensures button is treated as a block element */
-    width: fit_content; /* Button width fits its content */
-    text-decoration: none;
-    box-shadow: none; /* Ensure no box shadow is applied that might affect appearance */
-}
-
+    width: auto; /* Button width adjusts to its content */
+    text-decoration: none; /* No underline on text */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Subtle shadow for depth */
 }
 
 .middle-button:hover {
-    background-color: #007bff; /* Background color on hover */
+    background-color: #007bff; /* Background color on hover*/
     color: #fff; /* Text color on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
 }
+
+
 
 .button-container {
     margin-top: 20px; /* Adds space above the button */
@@ -316,3 +318,26 @@ body {
     height: 50px;
     border-radius: 50%;
 }
+
+/* online dot */
+/* Basic status dot styling */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px; /* Adjust space between the name and the dot */
+}
+
+/* Green for online */
+.online {
+    background-color: green;
+}
+
+/* Transparent or hidden for offline */
+.offline {
+    background-color: transparent;
+}
+
+/* signup page styling */
+

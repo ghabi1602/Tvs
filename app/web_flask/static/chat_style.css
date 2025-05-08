@@ -1,0 +1,94 @@
+.chat-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left sidebar for Professors */
+.professors-list, .students-list {
+    width: 20%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ccc;
+}
+
+.professors-list h2, .students-list h2 {
+    text-align: center;
+}
+
+.professors-list ul, .students-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item {
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.user-item:hover {
+    background-color: #d0d0d0;
+}
+
+/* Middle chat box */
+.chat-box {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
+.chat-history {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+}
+
+.chat-input {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+#message-content {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#send-message-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-message-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Right sidebar for Students */
+.students-list {
+    width: 20%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-left: 1px solid #ccc;
+}
